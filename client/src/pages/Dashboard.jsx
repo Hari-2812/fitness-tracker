@@ -57,7 +57,6 @@ const CardWrapper = styled.div`
 
 const Dashboard = () => {
 
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [todaysWorkouts, setTodaysWorkouts] = useState([]);
@@ -71,8 +70,6 @@ const Dashboard = () => {
   const dashboardData = async () => {
     try {
 
-      setLoading(true);
-
       const token = localStorage.getItem("fittrack-app-token");
 
       const res = await getDashboardDetails(token);
@@ -81,8 +78,6 @@ const Dashboard = () => {
 
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   };
 
