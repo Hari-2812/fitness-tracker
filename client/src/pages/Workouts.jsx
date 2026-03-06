@@ -91,24 +91,24 @@ const Workouts = () => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState("");
 
-  const getTodaysWorkout = async () => {
-    try {
-      setLoading(true);
-
-      const selectedDate = date || new Date().toISOString().split("T")[0];
-
-      const res = await getWorkouts(token, selectedDate);
-
-      setTodaysWorkouts(res.data.todaysWorkouts || []);
-
-    } catch (err) {
-      console.error("Error fetching workouts:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getTodaysWorkout = async () => {
+      try {
+        setLoading(true);
+
+        const selectedDate = date || new Date().toISOString().split("T")[0];
+
+        const res = await getWorkouts(token, selectedDate);
+
+        setTodaysWorkouts(res.data.todaysWorkouts || []);
+
+      } catch (err) {
+        console.error("Error fetching workouts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (token) {
       getTodaysWorkout();
     }
