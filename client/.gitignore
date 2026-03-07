@@ -1,0 +1,21 @@
+.vercel
+node_modules
+.env
+
+client/node_modules
+client/.env
+
+# Ignore build output
+client/build
+
+# Ignore logs
+logs    
+
+# Ignore OS files
+.DS_Store   
+# Ignore IDE files
+.idea/
+.vscode/
+
+server/node_modules
+server/.env
