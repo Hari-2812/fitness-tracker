@@ -8,7 +8,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Allow requests from frontend
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://fitness-tracker.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,8 +54,10 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    app.listen(process.env.PORT || 8080, () => {
-      console.log(`Server started on port ${process.env.PORT}`);
+    const PORT = process.env.PORT || 8080;
+
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
     });
   } catch (error) {
     console.log(error);
