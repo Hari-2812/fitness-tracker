@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import WorkoutCard from "../components/cards/WorkoutCard";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -83,7 +83,6 @@ const SecTitle = styled.div`
 `;
 
 const Workouts = () => {
-
   const { currentUser } = useSelector((state) => state.user);
   const token = currentUser?.token;
 
@@ -91,7 +90,7 @@ const Workouts = () => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState("");
 
-  const getTodaysWorkout = async () => {
+  const getTodaysWorkout = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -100,24 +99,22 @@ const Workouts = () => {
       const res = await getWorkouts(token, selectedDate);
 
       setTodaysWorkouts(res.data.todaysWorkouts || []);
-
     } catch (err) {
       console.error("Error fetching workouts:", err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [date, token]);
 
   useEffect(() => {
     if (token) {
       getTodaysWorkout();
     }
-  }, [date, token]);
+  }, [getTodaysWorkout, token]);
 
   return (
     <Container>
       <Wrapper>
-
         <Left>
           <Title>Select Date</Title>
 
@@ -126,12 +123,10 @@ const Workouts = () => {
               onChange={(e) => setDate(e.format("YYYY-MM-DD"))}
             />
           </LocalizationProvider>
-
         </Left>
 
         <Right>
           <Section>
-
             <SecTitle>Todays Workout</SecTitle>
 
             {loading ? (
@@ -140,20 +135,15 @@ const Workouts = () => {
               <CardWrapper>
                 {todaysWorkouts.length > 0 ? (
                   todaysWorkouts.map((workout) => (
-                    <WorkoutCard
-                      key={workout._id}
-                      workout={workout}
-                    />
+                    <WorkoutCard key={workout._id} workout={workout} />
                   ))
                 ) : (
                   <p>No workouts found</p>
                 )}
               </CardWrapper>
             )}
-
           </Section>
         </Right>
-
       </Wrapper>
     </Container>
   );
