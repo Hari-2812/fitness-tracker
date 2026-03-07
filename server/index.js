@@ -11,7 +11,7 @@ const app = express();
 // Allow requests from frontend
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://fitness-tracker.vercel.app"],
+    origin: ["http://localhost:3000", "https://fitness-tracker.vercel.app", /vercel\.app$/],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
